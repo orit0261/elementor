@@ -24,16 +24,16 @@ def get_response(surl):
             scans = dict(response.json())['scans']
             risk_found = False
             category = 'safe'
-            total_dict={'malicious':0,'phishing site':0,'malware':0,'clean site':0,'unrated':0}
+            total_dict={'malicious':0,'phishing site':0,'malware':0,'clean site':0,'unrated site':0}
             for i in scans:
-                set_total(scans[i]['result'],total_dict)
-
                 if not risk_found and \
                         (('malicious' in scans[i]['result'].lower()) \
                          or ('phishing' in scans[i]['result'].lower()) \
                          or ('malware' in scans[i]['result'].lower())):
                     category = 'risk'
                     risk_found = True
+
+                set_total(scans[i]['result'],total_dict)
                 # when risk found loop terminated
                 #else:
                 #    response.close()
@@ -41,7 +41,8 @@ def get_response(surl):
         else:
             print('error in response',response.status_code)
             raise ('error in response number', response.status_code)
-    except:
+    except Exception as e:
+        print(e)
         category = None
         print('url doesnt exists')
 
