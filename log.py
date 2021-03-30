@@ -9,14 +9,14 @@ class Trace():
                 ":p_response_json); commit; "
         params = {"p_api_name": api_name,  "p_status": status, "p_message": message,
                   "p_request_json": v_request_json, "p_response_json": v_response_json}
-        try:
-            db.session.execute(query, params)
-            db.session.commit()
-        except Exception as e:
-            print(e, flush=True)
-            db.session.rollback()
-        finally:
-            db.session.close()
+        #try:
+            #db.session.execute(query, params)
+            #db.session.commit()
+        #except Exception as e:
+            #print(e, flush=True)
+            #db.session.rollback()
+        #finally:
+            #db.session.close()
 
     def MakeResponse(db,api_name, trace_id, status, message, request_json, response_json):
         # 200 - OK
