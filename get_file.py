@@ -4,8 +4,14 @@ import os
 import wget
 import requests
 
+from log import Trace
+
 APPID = 'bdca18625acc67cfdac99a04c3361f837c33ae70720dbd030625241c54f5f78c'
 API_URL = 'https://www.virustotal.com/vtapi/v2/url/report'
+
+from sqlalchemy import create_engine
+db = create_engine('postgresql+psycopg2://postgres:orit0261@localhost:5432/dev')
+
 
 def set_total(key,total_dic):
     total_dic[key]=total_dic[key]+1
@@ -38,6 +44,14 @@ def get_response(surl):
     except:
         category = None
         print('url doesnt exists')
+
+    return Trace.MakeResponse(db,api_name="scan url",
+                              trace_id=response.headers.get('Trace-Id'),
+                              status=str(response.status_code), message="No documents found",
+                              request_json=str(response),
+                              response_json='')
+
+    db.session.close()
     return category
 
 
